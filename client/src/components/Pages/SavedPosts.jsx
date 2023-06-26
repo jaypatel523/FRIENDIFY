@@ -11,11 +11,15 @@ const SavedPosts = () => {
 
   useEffect(() => {
     if (!user.userId) return;
-    axios.get("/api/post/saved/" + user.userId).then((res) => {
-      console.log(res);
-      setSavedPosts(res.data.savePosts);
-      setIsLoading(false);
-    });
+    axios
+      .get(
+        "https://socialmedia-4z35.onrender.com/api/post/saved/" + user.userId
+      )
+      .then((res) => {
+        console.log(res);
+        setSavedPosts(res.data.savePosts);
+        setIsLoading(false);
+      });
   }, [user]);
 
   return (

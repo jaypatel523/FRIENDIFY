@@ -41,34 +41,36 @@ const Register = () => {
     formData.append("password", password);
     formData.append("image", image);
     // const data = { username, email, password };
-    axios.post("/api/newuser", formData).then((res) => {
-      if (res.data.user) {
-        toast.success(res.data.message, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        navigate("/login");
-        // console.log(res.data.user);
-      } else {
-        toast.warning(res.data.message, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        // console.log(res.data.message);
-      }
-    });
+    axios
+      .post("https://socialmedia-4z35.onrender.com/api/newuser", formData)
+      .then((res) => {
+        if (res.data.user) {
+          toast.success(res.data.message, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          navigate("/login");
+          // console.log(res.data.user);
+        } else {
+          toast.warning(res.data.message, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          // console.log(res.data.message);
+        }
+      });
   };
 
   return (

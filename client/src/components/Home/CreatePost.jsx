@@ -42,7 +42,9 @@ const CreatePost = () => {
 
   useEffect(() => {
     axios
-      .get(`/api/getallposts/query?limit=${loadMore}`)
+      .get(
+        `https://socialmedia-4z35.onrender.com/api/getallposts/query?limit=${loadMore}`
+      )
       .then((res) => {
         console.log(res);
         setAllPost(res.data);
@@ -62,35 +64,40 @@ const CreatePost = () => {
     formData.append("caption", caption);
     formData.append("image", image);
 
-    axios.post(`/api/new/post/${userId}`, formData).then((res) => {
-      if (res.data.success) {
-        setIsPost(true);
-        toast.success(res.data.message, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        setIsPosting(false);
-        navigate("/");
-      } else {
-        toast.success(res.data.message, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        setIsPosting(false);
-      }
-    });
+    axios
+      .post(
+        `https://socialmedia-4z35.onrender.com/api/new/post/${userId}`,
+        formData
+      )
+      .then((res) => {
+        if (res.data.success) {
+          setIsPost(true);
+          toast.success(res.data.message, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          setIsPosting(false);
+          navigate("/");
+        } else {
+          toast.success(res.data.message, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          setIsPosting(false);
+        }
+      });
 
     setIsPost(false);
     setCaption("");

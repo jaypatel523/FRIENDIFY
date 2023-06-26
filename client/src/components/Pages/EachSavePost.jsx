@@ -61,7 +61,12 @@ const EachSavePost = ({ post, savedPosts, setSavedPosts }) => {
   useEffect(() => {
     if (!user.userId) return;
     axios
-      .get("/api/post/isLike/" + post._id + "/" + user.userId)
+      .get(
+        "https://socialmedia-4z35.onrender.com/api/post/isLike/" +
+          post._id +
+          "/" +
+          user.userId
+      )
       .then((res) => {
         setIsLiked(res.data.success);
       });
@@ -70,7 +75,12 @@ const EachSavePost = ({ post, savedPosts, setSavedPosts }) => {
   useEffect(() => {
     if (!user.userId) return;
     axios
-      .get("/api/post/isSave/" + user.userId + "/" + post._id)
+      .get(
+        "https://socialmedia-4z35.onrender.com/api/post/isSave/" +
+          user.userId +
+          "/" +
+          post._id
+      )
       .then((res) => {
         setIsPostSaved(res.data.success);
       });
@@ -78,15 +88,20 @@ const EachSavePost = ({ post, savedPosts, setSavedPosts }) => {
 
   useEffect(() => {
     if (!user.userId) return;
-    axios.get("/api/getLikesAndComments/" + post._id).then((res) => {
-      setNumberOfLikes(res.data.likesAndComments.likes.length);
-      setNumberOfComments(res.data.likesAndComments.comments.length);
-    });
+    axios
+      .get(
+        "https://socialmedia-4z35.onrender.com/api/getLikesAndComments/" +
+          post._id
+      )
+      .then((res) => {
+        setNumberOfLikes(res.data.likesAndComments.likes.length);
+        setNumberOfComments(res.data.likesAndComments.comments.length);
+      });
   }, [isPostSaved]);
 
   const handleLike = () => {
     axios
-      .put("/api/posts/like", {
+      .put("https://socialmedia-4z35.onrender.com/api/posts/like", {
         userId: user.userId,
         postId: post._id,
       })
@@ -108,15 +123,20 @@ const EachSavePost = ({ post, savedPosts, setSavedPosts }) => {
         console.log("err", err);
       });
 
-    axios.get("/api/getLikesAndComments/" + post._id).then((res) => {
-      setNumberOfLikes(res.data.likesAndComments.likes.length);
-      setNumberOfComments(res.data.likesAndComments.comments.length);
-    });
+    axios
+      .get(
+        "https://socialmedia-4z35.onrender.com/api/getLikesAndComments/" +
+          post._id
+      )
+      .then((res) => {
+        setNumberOfLikes(res.data.likesAndComments.likes.length);
+        setNumberOfComments(res.data.likesAndComments.comments.length);
+      });
   };
 
   const handleUnLike = () => {
     axios
-      .put("/api/posts/unlike", {
+      .put("https://socialmedia-4z35.onrender.com/api/posts/unlike", {
         userId: user.userId,
         postId: post._id,
       })
@@ -137,15 +157,22 @@ const EachSavePost = ({ post, savedPosts, setSavedPosts }) => {
         console.log("err", err);
       });
 
-    axios.get("/api/getLikesAndComments/" + post._id).then((res) => {
-      setNumberOfLikes(res.data.likesAndComments.likes.length);
-      setNumberOfComments(res.data.likesAndComments.comments.length);
-    });
+    axios
+      .get(
+        "https://socialmedia-4z35.onrender.com/api/getLikesAndComments/" +
+          post._id
+      )
+      .then((res) => {
+        setNumberOfLikes(res.data.likesAndComments.likes.length);
+        setNumberOfComments(res.data.likesAndComments.comments.length);
+      });
   };
 
   useEffect(() => {
     axios
-      .get(`/api/posts/getcomments/${post._id}`)
+      .get(
+        `https://socialmedia-4z35.onrender.com/api/posts/getcomments/${post._id}`
+      )
       .then((res) => {
         setComments(res.data[0].comments);
       })
@@ -175,7 +202,7 @@ const EachSavePost = ({ post, savedPosts, setSavedPosts }) => {
       postId: post._id,
     };
     axios
-      .put("/api/posts/comment", data)
+      .put("https://socialmedia-4z35.onrender.com/api/posts/comment", data)
       .then((res) => {
         setComments(res.data.result.comments);
         toast.success(res.data.message, {
@@ -194,10 +221,15 @@ const EachSavePost = ({ post, savedPosts, setSavedPosts }) => {
       });
     setCommentText("");
 
-    axios.get("/api/getLikesAndComments/" + post._id).then((res) => {
-      setNumberOfLikes(res.data.likesAndComments.likes.length);
-      setNumberOfComments(res.data.likesAndComments.comments.length);
-    });
+    axios
+      .get(
+        "https://socialmedia-4z35.onrender.com/api/getLikesAndComments/" +
+          post._id
+      )
+      .then((res) => {
+        setNumberOfLikes(res.data.likesAndComments.likes.length);
+        setNumberOfComments(res.data.likesAndComments.comments.length);
+      });
   };
 
   const handleUnComment = (commentId) => {
@@ -206,7 +238,7 @@ const EachSavePost = ({ post, savedPosts, setSavedPosts }) => {
       postId: post._id,
     };
     axios
-      .put("/api/posts/uncomment", data)
+      .put("https://socialmedia-4z35.onrender.com/api/posts/uncomment", data)
       .then((res) => {
         toast.success(res.data.message, {
           position: "top-right",
@@ -224,33 +256,50 @@ const EachSavePost = ({ post, savedPosts, setSavedPosts }) => {
         console.log(err);
       });
 
-    axios.get("/api/getLikesAndComments/" + post._id).then((res) => {
-      setNumberOfLikes(res.data.likesAndComments.likes.length);
-      setNumberOfComments(res.data.likesAndComments.comments.length);
-    });
+    axios
+      .get(
+        "https://socialmedia-4z35.onrender.com/api/getLikesAndComments/" +
+          post._id
+      )
+      .then((res) => {
+        setNumberOfLikes(res.data.likesAndComments.likes.length);
+        setNumberOfComments(res.data.likesAndComments.comments.length);
+      });
   };
 
   const handleSavePost = () => {
-    axios.put("/api/post/save/" + user.userId + "/" + post._id).then((res) => {
-      if (res.data.success) {
-        toast.success(res.data.message, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        setIsPostSaved(true);
-      }
-    });
+    axios
+      .put(
+        "https://socialmedia-4z35.onrender.com/api/post/save/" +
+          user.userId +
+          "/" +
+          post._id
+      )
+      .then((res) => {
+        if (res.data.success) {
+          toast.success(res.data.message, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          setIsPostSaved(true);
+        }
+      });
   };
 
   const handleUnSavePost = () => {
     axios
-      .put("/api/post/unsave/" + user.userId + "/" + post._id)
+      .put(
+        "https://socialmedia-4z35.onrender.com/api/post/unsave/" +
+          user.userId +
+          "/" +
+          post._id
+      )
       .then((res) => {
         if (res.data.success) {
           toast.success(res.data.message, {
@@ -264,10 +313,15 @@ const EachSavePost = ({ post, savedPosts, setSavedPosts }) => {
             theme: "light",
           });
 
-          axios.get("/api/post/saved/" + user.userId).then((res) => {
-            setSavedPosts(res.data.savePosts);
-            setIsPostSaved(false);
-          });
+          axios
+            .get(
+              "https://socialmedia-4z35.onrender.com/api/post/saved/" +
+                user.userId
+            )
+            .then((res) => {
+              setSavedPosts(res.data.savePosts);
+              setIsPostSaved(false);
+            });
         }
       });
   };
@@ -293,7 +347,7 @@ const EachSavePost = ({ post, savedPosts, setSavedPosts }) => {
           }}
         >
           <Avatar
-            src={`http://localhost:8000/${post.postedBy.profilePicURL}`}
+            src={`https://socialmedia-4z35.onrender.com/${post.postedBy.profilePicURL}`}
             sx={{ marginRight: 2 }}
           />
           <Typography variant="overline" sx={{ fontWeight: "bold" }}>
@@ -308,7 +362,7 @@ const EachSavePost = ({ post, savedPosts, setSavedPosts }) => {
           sx={{ border: "1px solid black" }}
         >
           <Container maxWidth="xl">
-            <img src={`http://localhost:8000/${imageUrl}`} />
+            <img src={`https://socialmedia-4z35.onrender.com/${imageUrl}`} />
           </Container>
         </Dialog>
 
@@ -319,7 +373,7 @@ const EachSavePost = ({ post, savedPosts, setSavedPosts }) => {
             alt="green iguana"
           /> */}
           <img
-            src={`http://localhost:8000/${imageUrl}`}
+            src={`https://socialmedia-4z35.onrender.com/${imageUrl}`}
             className="w-full h-72 object-contain"
           />
         </CardActionArea>

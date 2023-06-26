@@ -11,10 +11,14 @@ const LikedPosts = () => {
 
   useEffect(() => {
     if (!user.userId) return;
-    axios.get("/api/posts/liked/" + user.userId).then((res) => {
-      setLikedPosts(res.data.likedPost);
-      setIsLoading(false);
-    });
+    axios
+      .get(
+        "https://socialmedia-4z35.onrender.com/api/posts/liked/" + user.userId
+      )
+      .then((res) => {
+        setLikedPosts(res.data.likedPost);
+        setIsLoading(false);
+      });
   }, [user]);
 
   return (
