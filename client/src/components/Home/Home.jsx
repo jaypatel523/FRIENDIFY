@@ -13,7 +13,9 @@ const Home = () => {
 
   useEffect(() => {
     axios
-      .get(`/api/getallposts/query?limit=${loadMore}&userId=${user.userId}`)
+      .get(
+        `https://socialmedia-4z35.onrender.com/api/getallposts/query?limit=${loadMore}&userId=${user.userId}`
+      )
       .then((res) => {
         console.log(res);
         setAllPost(res.data);
@@ -37,7 +39,11 @@ const Home = () => {
     setIsLoading(true);
     setLoadMore(loadMore + 6);
     axios
-      .get(`/api/getallposts/query?limit=${loadMore + 6}&userId=${user.userId}`)
+      .get(
+        `https://socialmedia-4z35.onrender.com/api/getallposts/query?limit=${
+          loadMore + 6
+        }&userId=${user.userId}`
+      )
       .then((res) => {
         console.log(res);
         setAllPost(res.data);

@@ -25,12 +25,19 @@ const EditProfile = () => {
   const params = useParams();
 
   useEffect(() => {
-    axios.get("/api/getuserdetails/" + params.userId).then((res) => {
-      setUsername(res.data.user.username);
-      setEmail(res.data.user.email);
-      setProfilePic("http://localhost:8000/" + res.data.user.profilePicURL);
-      setIsLoading(false);
-    });
+    axios
+      .get(
+        "https://socialmedia-4z35.onrender.com/api/getuserdetails/" +
+          params.userId
+      )
+      .then((res) => {
+        setUsername(res.data.user.username);
+        setEmail(res.data.user.email);
+        setProfilePic(
+          "https://socialmedia-4z35.onrender.com/" + res.data.user.profilePicURL
+        );
+        setIsLoading(false);
+      });
   }, []);
 
   const handleEditProfile = () => {
@@ -42,34 +49,36 @@ const EditProfile = () => {
 
     console.log(image);
 
-    axios.post("/api/editprofile", formData).then((res) => {
-      console.log(res);
+    axios
+      .post("https://socialmedia-4z35.onrender.com/api/editprofile", formData)
+      .then((res) => {
+        console.log(res);
 
-      sessionStorage.setItem("userId", res.data._id);
-      sessionStorage.setItem("username", res.data.username);
-      sessionStorage.setItem("email", res.data.email);
-      sessionStorage.setItem("profile", res.data.profilePicURL);
+        sessionStorage.setItem("userId", res.data._id);
+        sessionStorage.setItem("username", res.data.username);
+        sessionStorage.setItem("email", res.data.email);
+        sessionStorage.setItem("profile", res.data.profilePicURL);
 
-      setUser({
-        userId: res.data._id,
-        username: res.data.username,
-        email: res.data.email,
-        profile: res.data.profilePicURL,
+        setUser({
+          userId: res.data._id,
+          username: res.data.username,
+          email: res.data.email,
+          profile: res.data.profilePicURL,
+        });
+
+        toast.success("Your profile is updated", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+
+        navigate("/profile/" + user.userId);
       });
-
-      toast.success("Your profile is updated", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-
-      navigate("/profile/" + user.userId);
-    });
   };
 
   return (

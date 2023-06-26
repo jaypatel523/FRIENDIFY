@@ -43,21 +43,23 @@ function Navbar() {
   };
 
   const handleLogout = () => {
-    axios.get("/api/auth/signout").then((res) => {
-      console.log(res);
-      sessionStorage.clear();
-      toast.success(res.data.message, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+    axios
+      .get("https://socialmedia-4z35.onrender.com/api/auth/signout")
+      .then((res) => {
+        console.log(res);
+        sessionStorage.clear();
+        toast.success(res.data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        navigate("/login");
       });
-      navigate("/login");
-    });
   };
 
   const pages = [

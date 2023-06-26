@@ -29,16 +29,23 @@ const Users = () => {
   useEffect(() => {
     if (!user.userId) return;
 
-    axios.get("/api/userstofollow/" + user.userId).then((res) => {
-      console.log(res);
-      setWhoToFollow(res.data.users);
-      setIsLoading(false);
-    });
+    axios
+      .get(
+        "https://socialmedia-4z35.onrender.com/api/userstofollow/" + user.userId
+      )
+      .then((res) => {
+        console.log(res);
+        setWhoToFollow(res.data.users);
+        setIsLoading(false);
+      });
   }, [user]);
 
   const handleFollow = (followId) => {
     axios
-      .put("/api/users/follow", { userId: user.userId, followId })
+      .put("https://socialmedia-4z35.onrender.com/api/users/follow", {
+        userId: user.userId,
+        followId,
+      })
       .then((res) => {
         console.log(res);
         toast.success("You are following " + res.data.result.username, {
@@ -53,16 +60,20 @@ const Users = () => {
         });
       });
 
-    axios.get("/api/userstofollow/" + user.userId).then((res) => {
-      setWhoToFollow(res.data.users);
-    });
+    axios
+      .get(
+        "https://socialmedia-4z35.onrender.com/api/userstofollow/" + user.userId
+      )
+      .then((res) => {
+        setWhoToFollow(res.data.users);
+      });
   };
 
   const handleSearchUser = (e) => {
     setSearchUser(e.target.value);
     axios
       .get(
-        "/api/searchuser/query?username=" +
+        "https://socialmedia-4z35.onrender.com/api/searchuser/query?username=" +
           e.target.value.trim() +
           "&userId=" +
           user.userId
@@ -127,7 +138,7 @@ const Users = () => {
                         <Link to={`/profile/${person._id}`}>
                           <div className="flex items-center text-center">
                             <Avatar
-                              src={`http://localhost:8000/${person.profilePicURL}`}
+                              src={`https://socialmedia-4z35.onrender.com/${person.profilePicURL}`}
                               sx={{ marginRight: 2 }}
                             />
                             <Typography

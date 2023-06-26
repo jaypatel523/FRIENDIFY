@@ -12,7 +12,10 @@ const FollowingTab = ({ followings, setFollowings, currentUser }) => {
   const { user } = useContext(MediaContext);
   const handleUnFollow = (unfollowId) => {
     axios
-      .put("/api/users/unfollow", { userId: user.userId, unfollowId })
+      .put("https://socialmedia-4z35.onrender.com/api/users/unfollow", {
+        userId: user.userId,
+        unfollowId,
+      })
       .then((res) => {
         toast.success("You Unfollow " + res.data.username, {
           position: "top-right",
@@ -26,9 +29,14 @@ const FollowingTab = ({ followings, setFollowings, currentUser }) => {
         });
       });
 
-    axios.get("/api/getfollowerandfollowing/" + user.userId).then((res) => {
-      setFollowings(res.data.following);
-    });
+    axios
+      .get(
+        "https://socialmedia-4z35.onrender.com/api/getfollowerandfollowing/" +
+          user.userId
+      )
+      .then((res) => {
+        setFollowings(res.data.following);
+      });
   };
 
   return (
@@ -50,7 +58,7 @@ const FollowingTab = ({ followings, setFollowings, currentUser }) => {
                 <Link to={`/profile/${following._id}`}>
                   <div className="flex items-center text-center">
                     <Avatar
-                      src={`http://localhost:8000/${following.profilePicURL}`}
+                      src={`https://socialmedia-4z35.onrender.com/${following.profilePicURL}`}
                       sx={{ marginRight: 2 }}
                     />
                     <Typography variant="subtitle1" sx={{ cursor: "pointer" }}>

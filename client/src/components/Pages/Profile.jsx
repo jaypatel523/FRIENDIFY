@@ -41,30 +41,46 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    axios.get("/api/getposts/" + params.userId).then((res) => {
-      setPosts(res.data);
-      setIsProfileLoading(false);
-    });
+    axios
+      .get(
+        "https://socialmedia-4z35.onrender.com/api/getposts/" + params.userId
+      )
+      .then((res) => {
+        setPosts(res.data);
+        setIsProfileLoading(false);
+      });
 
-    axios.get("/api/getfollowerandfollowing/" + params.userId).then((res) => {
-      // setFollowers(res.data.followings);
-      setFollowers(res.data.followers);
-      setFollowings(res.data.following);
-      setIsProfileLoading(false);
-    });
-  }, [params]);
-
-  useEffect(() => {
-    axios.get("/api/getuserdetails/" + params.userId).then((res) => {
-      setCurrentUser(res.data.user);
-      setProfilePic("http://localhost:8000/" + res.data.user.profilePicURL);
-      setIsProfileLoading(false);
-    });
+    axios
+      .get(
+        "https://socialmedia-4z35.onrender.com/api/getfollowerandfollowing/" +
+          params.userId
+      )
+      .then((res) => {
+        // setFollowers(res.data.followings);
+        setFollowers(res.data.followers);
+        setFollowings(res.data.following);
+        setIsProfileLoading(false);
+      });
   }, [params]);
 
   useEffect(() => {
     axios
-      .post("/api/user/isfollowing", {
+      .get(
+        "https://socialmedia-4z35.onrender.com/api/getuserdetails/" +
+          params.userId
+      )
+      .then((res) => {
+        setCurrentUser(res.data.user);
+        setProfilePic(
+          "https://socialmedia-4z35.onrender.com/" + res.data.user.profilePicURL
+        );
+        setIsProfileLoading(false);
+      });
+  }, [params]);
+
+  useEffect(() => {
+    axios
+      .post("https://socialmedia-4z35.onrender.com/api/user/isfollowing", {
         userId: user.userId,
         followId: params.userId,
       })
@@ -75,7 +91,7 @@ const Profile = () => {
 
   const handleFollow = () => {
     axios
-      .put("/api/users/follow", {
+      .put("https://socialmedia-4z35.onrender.com/api/users/follow", {
         userId: user.userId,
         followId: params.userId,
       })

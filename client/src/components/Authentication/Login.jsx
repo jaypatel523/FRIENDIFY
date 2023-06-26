@@ -29,43 +29,45 @@ const Login = () => {
     e.preventDefault();
 
     const data = { email, password };
-    axios.post("/api/auth/signin", data).then((res) => {
-      // console.log(res);
-      if (res.data.user) {
-        sessionStorage.setItem("userId", res.data.user._id);
-        sessionStorage.setItem("username", res.data.user.username);
-        sessionStorage.setItem("email", res.data.user.email);
-        sessionStorage.setItem("profile", res.data.user.profilePic);
-        setUser({
-          userId: res.data.user._id,
-          username: res.data.user.username,
-          email: res.data.user.email,
-          profile: res.data.user.profilePic,
-        });
-        toast.success(res.data.message, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        navigateTo("/");
-      } else {
-        toast.warning(res.data.message, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
-    });
+    axios
+      .post("https://socialmedia-4z35.onrender.com/api/auth/signin", data)
+      .then((res) => {
+        // console.log(res);
+        if (res.data.user) {
+          sessionStorage.setItem("userId", res.data.user._id);
+          sessionStorage.setItem("username", res.data.user.username);
+          sessionStorage.setItem("email", res.data.user.email);
+          sessionStorage.setItem("profile", res.data.user.profilePic);
+          setUser({
+            userId: res.data.user._id,
+            username: res.data.user.username,
+            email: res.data.user.email,
+            profile: res.data.user.profilePic,
+          });
+          toast.success(res.data.message, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          navigateTo("/");
+        } else {
+          toast.warning(res.data.message, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      });
   };
 
   return (
