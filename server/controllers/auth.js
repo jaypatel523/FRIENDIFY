@@ -8,6 +8,7 @@ const signin = async (req, res) => {
 
     try {
 
+
         let user = await User.findOne({ email: req.body.email })
         if (!user) {
             throw new Error('Please provide valid credentials.');
@@ -22,7 +23,6 @@ const signin = async (req, res) => {
 
         res.cookie('token', token, {
             maxAge: 86400000
-
         })
 
 

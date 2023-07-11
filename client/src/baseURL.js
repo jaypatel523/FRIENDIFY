@@ -1,0 +1,1 @@
+export const baseURL = "https://socialmedia-4z35.onrender.com";

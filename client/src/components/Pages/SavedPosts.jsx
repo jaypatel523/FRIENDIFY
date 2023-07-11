@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { MediaContext } from "../../Context";
 import EachSavePost from "./EachSavePost";
+import { baseURL } from "../../baseURL";
 
 const SavedPosts = () => {
   const { user } = useContext(MediaContext);
@@ -11,15 +12,11 @@ const SavedPosts = () => {
 
   useEffect(() => {
     if (!user.userId) return;
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/post/saved/" + user.userId
-      )
-      .then((res) => {
-        console.log(res);
-        setSavedPosts(res.data.savePosts);
-        setIsLoading(false);
-      });
+    axios.get(baseURL + "/api/post/saved/" + user.userId).then((res) => {
+      console.log(res);
+      setSavedPosts(res.data.savePosts);
+      setIsLoading(false);
+    });
   }, [user]);
 
   return (

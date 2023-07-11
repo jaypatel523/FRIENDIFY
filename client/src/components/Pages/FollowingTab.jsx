@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { MediaContext } from "../../Context";
+import { baseURL } from "../../baseURL";
 
 const FollowingTab = ({ followings, setFollowings, currentUser }) => {
   //   console.log(currentUser);
@@ -12,7 +13,7 @@ const FollowingTab = ({ followings, setFollowings, currentUser }) => {
   const { user } = useContext(MediaContext);
   const handleUnFollow = (unfollowId) => {
     axios
-      .put("https://socialmedia-4z35.onrender.com/api/users/unfollow", {
+      .put(baseURL + "/api/users/unfollow", {
         userId: user.userId,
         unfollowId,
       })
@@ -30,10 +31,7 @@ const FollowingTab = ({ followings, setFollowings, currentUser }) => {
       });
 
     axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/getfollowerandfollowing/" +
-          user.userId
-      )
+      .get(baseURL + "/api/getfollowerandfollowing/" + user.userId)
       .then((res) => {
         setFollowings(res.data.following);
       });
@@ -58,7 +56,7 @@ const FollowingTab = ({ followings, setFollowings, currentUser }) => {
                 <Link to={`/profile/${following._id}`}>
                   <div className="flex items-center text-center">
                     <Avatar
-                      src={`https://socialmedia-4z35.onrender.com/${following.profilePicURL}`}
+                      src={`${baseURL}/${following.profilePicURL}`}
                       sx={{ marginRight: 2 }}
                     />
                     <Typography variant="subtitle1" sx={{ cursor: "pointer" }}>

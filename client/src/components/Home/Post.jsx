@@ -35,6 +35,7 @@ import {
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { DeleteForeverRounded } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { baseURL } from "../../baseURL";
 
 const Post = ({ post }) => {
   const { user, setUser } = useContext(MediaContext);
@@ -62,12 +63,7 @@ const Post = ({ post }) => {
   useEffect(() => {
     if (!user.userId) return;
     axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/post/isLike/" +
-          post._id +
-          "/" +
-          user.userId
-      )
+      .get(baseURL + "/api/post/isLike/" + post._id + "/" + user.userId)
       .then((res) => {
         setIsLiked(res.data.success);
       });
@@ -75,20 +71,15 @@ const Post = ({ post }) => {
 
   useEffect(() => {
     if (!user.userId) return;
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/getLikesAndComments/" +
-          post._id
-      )
-      .then((res) => {
-        setNumberOfLikes(res.data.likesAndComments.likes.length);
-        setNumberOfComments(res.data.likesAndComments.comments.length);
-      });
+    axios.get(baseURL + "/api/getLikesAndComments/" + post._id).then((res) => {
+      setNumberOfLikes(res.data.likesAndComments.likes.length);
+      setNumberOfComments(res.data.likesAndComments.comments.length);
+    });
   }, []);
 
   const handleLike = () => {
     axios
-      .put("https://socialmedia-4z35.onrender.com/api/posts/like", {
+      .put(baseURL + "/api/posts/like", {
         userId: user.userId,
         postId: post._id,
       })
@@ -110,20 +101,15 @@ const Post = ({ post }) => {
         console.log("err", err);
       });
 
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/getLikesAndComments/" +
-          post._id
-      )
-      .then((res) => {
-        setNumberOfLikes(res.data.likesAndComments.likes.length);
-        setNumberOfComments(res.data.likesAndComments.comments.length);
-      });
+    axios.get(baseURL + "/api/getLikesAndComments/" + post._id).then((res) => {
+      setNumberOfLikes(res.data.likesAndComments.likes.length);
+      setNumberOfComments(res.data.likesAndComments.comments.length);
+    });
   };
 
   const handleUnLike = () => {
     axios
-      .put("https://socialmedia-4z35.onrender.com/api/posts/unlike", {
+      .put(baseURL + "/api/posts/unlike", {
         userId: user.userId,
         postId: post._id,
       })
@@ -144,22 +130,15 @@ const Post = ({ post }) => {
         console.log("err", err);
       });
 
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/getLikesAndComments/" +
-          post._id
-      )
-      .then((res) => {
-        setNumberOfLikes(res.data.likesAndComments.likes.length);
-        setNumberOfComments(res.data.likesAndComments.comments.length);
-      });
+    axios.get(baseURL + "/api/getLikesAndComments/" + post._id).then((res) => {
+      setNumberOfLikes(res.data.likesAndComments.likes.length);
+      setNumberOfComments(res.data.likesAndComments.comments.length);
+    });
   };
 
   useEffect(() => {
     axios
-      .get(
-        `https://socialmedia-4z35.onrender.com/api/posts/getcomments/${post._id}`
-      )
+      .get(baseURL + `/api/posts/getcomments/${post._id}`)
       .then((res) => {
         setComments(res.data[0].comments);
       })
@@ -189,7 +168,7 @@ const Post = ({ post }) => {
       postId: post._id,
     };
     axios
-      .put("https://socialmedia-4z35.onrender.com/api/posts/comment", data)
+      .put(baseURL + "/api/posts/comment", data)
       .then((res) => {
         setComments(res.data.result.comments);
         toast.success(res.data.message, {
@@ -208,15 +187,10 @@ const Post = ({ post }) => {
       });
     setCommentText("");
 
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/getLikesAndComments/" +
-          post._id
-      )
-      .then((res) => {
-        setNumberOfLikes(res.data.likesAndComments.likes.length);
-        setNumberOfComments(res.data.likesAndComments.comments.length);
-      });
+    axios.get(baseURL + "/api/getLikesAndComments/" + post._id).then((res) => {
+      setNumberOfLikes(res.data.likesAndComments.likes.length);
+      setNumberOfComments(res.data.likesAndComments.comments.length);
+    });
   };
 
   const handleUnComment = (commentId) => {
@@ -226,7 +200,7 @@ const Post = ({ post }) => {
     };
 
     axios
-      .put("https://socialmedia-4z35.onrender.com/api/posts/uncomment", data)
+      .put(baseURL + "/api/posts/uncomment", data)
       .then((res) => {
         toast.success(res.data.message, {
           position: "top-right",
@@ -244,25 +218,15 @@ const Post = ({ post }) => {
         console.log(err);
       });
 
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/getLikesAndComments/" +
-          post._id
-      )
-      .then((res) => {
-        setNumberOfLikes(res.data.likesAndComments.likes.length);
-        setNumberOfComments(res.data.likesAndComments.comments.length);
-      });
+    axios.get(baseURL + "/api/getLikesAndComments/" + post._id).then((res) => {
+      setNumberOfLikes(res.data.likesAndComments.likes.length);
+      setNumberOfComments(res.data.likesAndComments.comments.length);
+    });
   };
 
   const handleSavePost = () => {
     axios
-      .put(
-        "https://socialmedia-4z35.onrender.com/api/post/save/" +
-          user.userId +
-          "/" +
-          post._id
-      )
+      .put(baseURL + "/api/post/save/" + user.userId + "/" + post._id)
       .then((res) => {
         if (res.data.success) {
           setIsPostSaved(true);
@@ -282,12 +246,7 @@ const Post = ({ post }) => {
 
   const handleUnSavePost = () => {
     axios
-      .put(
-        "https://socialmedia-4z35.onrender.com/api/post/unsave/" +
-          user.userId +
-          "/" +
-          post._id
-      )
+      .put(baseURL + "/api/post/unsave/" + user.userId + "/" + post._id)
       .then((res) => {
         if (res.data.success) {
           setIsPostSaved(false);
@@ -308,12 +267,7 @@ const Post = ({ post }) => {
   useEffect(() => {
     if (!user.userId) return;
     axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/post/isSave/" +
-          user.userId +
-          "/" +
-          post._id
-      )
+      .get(baseURL + "/api/post/isSave/" + user.userId + "/" + post._id)
       .then((res) => {
         setIsPostSaved(res.data.success);
       });
@@ -340,7 +294,7 @@ const Post = ({ post }) => {
           }}
         >
           <Avatar
-            src={`https://socialmedia-4z35.onrender.com/${post.postedBy.profilePicURL}`}
+            src={`${baseURL}/${post.postedBy.profilePicURL}`}
             sx={{ marginRight: 2 }}
           />
           <Link to={`/profile/${post.postedBy._id}`}>
@@ -357,7 +311,7 @@ const Post = ({ post }) => {
           sx={{ border: "1px solid black" }}
         >
           <Container maxWidth="xl">
-            <img src={`https://socialmedia-4z35.onrender.com/${imageUrl}`} />
+            <img src={`${baseURL}/${imageUrl}`} />
           </Container>
         </Dialog>
 
@@ -368,7 +322,7 @@ const Post = ({ post }) => {
             alt="green iguana"
           /> */}
           <img
-            src={`https://socialmedia-4z35.onrender.com/${imageUrl}`}
+            src={`${baseURL}/${imageUrl}`}
             className="w-full h-72 object-contain"
           />
         </CardActionArea>

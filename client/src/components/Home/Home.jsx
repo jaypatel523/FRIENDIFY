@@ -4,6 +4,7 @@ import axios from "axios";
 import Post from "./Post";
 import { Box, Button, CircularProgress, Container, Grid } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { baseURL } from "../../baseURL";
 
 const Home = () => {
   const { user, setUser } = useContext(MediaContext);
@@ -14,7 +15,8 @@ const Home = () => {
   useEffect(() => {
     axios
       .get(
-        `https://socialmedia-4z35.onrender.com/api/getallposts/query?limit=${loadMore}&userId=${user.userId}`
+        baseURL +
+          `/api/getallposts/query?limit=${loadMore}&userId=${user.userId}`
       )
       .then((res) => {
         console.log(res);
@@ -40,9 +42,8 @@ const Home = () => {
     setLoadMore(loadMore + 6);
     axios
       .get(
-        `https://socialmedia-4z35.onrender.com/api/getallposts/query?limit=${
-          loadMore + 6
-        }&userId=${user.userId}`
+        baseURL +
+          `/api/getallposts/query?limit=${loadMore + 6}&userId=${user.userId}`
       )
       .then((res) => {
         console.log(res);
@@ -77,6 +78,7 @@ const Home = () => {
             >
               {allPost &&
                 allPost.map((post, index) => {
+                  console.log(post);
                   return (
                     <Grid item xs={2} sm={4} md={4} key={index}>
                       <Post post={post} />

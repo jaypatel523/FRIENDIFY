@@ -13,6 +13,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { baseURL } from "../../baseURL";
 
 const EditProfile = () => {
   const [profilePic, setProfilePic] = useState(null);
@@ -25,19 +26,12 @@ const EditProfile = () => {
   const params = useParams();
 
   useEffect(() => {
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/getuserdetails/" +
-          params.userId
-      )
-      .then((res) => {
-        setUsername(res.data.user.username);
-        setEmail(res.data.user.email);
-        setProfilePic(
-          "https://socialmedia-4z35.onrender.com/" + res.data.user.profilePicURL
-        );
-        setIsLoading(false);
-      });
+    axios.get(baseURL + "/api/getuserdetails/" + params.userId).then((res) => {
+      setUsername(res.data.user.username);
+      setEmail(res.data.user.email);
+      setProfilePic(baseURL + "/" + res.data.user.profilePicURL);
+      setIsLoading(false);
+    });
   }, []);
 
   const handleEditProfile = () => {
@@ -49,36 +43,34 @@ const EditProfile = () => {
 
     console.log(image);
 
-    axios
-      .post("https://socialmedia-4z35.onrender.com/api/editprofile", formData)
-      .then((res) => {
-        console.log(res);
+    axios.post(baseURL + "/api/editprofile", formData).then((res) => {
+      console.log(res);
 
-        sessionStorage.setItem("userId", res.data._id);
-        sessionStorage.setItem("username", res.data.username);
-        sessionStorage.setItem("email", res.data.email);
-        sessionStorage.setItem("profile", res.data.profilePicURL);
+      sessionStorage.setItem("userId", res.data._id);
+      sessionStorage.setItem("username", res.data.username);
+      sessionStorage.setItem("email", res.data.email);
+      sessionStorage.setItem("profile", res.data.profilePicURL);
 
-        setUser({
-          userId: res.data._id,
-          username: res.data.username,
-          email: res.data.email,
-          profile: res.data.profilePicURL,
-        });
-
-        toast.success("Your profile is updated", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-
-        navigate("/profile/" + user.userId);
+      setUser({
+        userId: res.data._id,
+        username: res.data.username,
+        email: res.data.email,
+        profile: res.data.profilePicURL,
       });
+
+      toast.success("Your profile is updated", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+
+      navigate("/profile/" + user.userId);
+    });
   };
 
   return (

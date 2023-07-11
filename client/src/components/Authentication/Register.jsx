@@ -12,6 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Card, IconButton, Input, InputLabel } from "@mui/material";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import { baseURL } from "../../baseURL";
 
 const Register = () => {
   const [username, setUserName] = useState("");
@@ -41,36 +42,34 @@ const Register = () => {
     formData.append("password", password);
     formData.append("image", image);
     // const data = { username, email, password };
-    axios
-      .post("https://socialmedia-4z35.onrender.com/api/newuser", formData)
-      .then((res) => {
-        if (res.data.user) {
-          toast.success(res.data.message, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          navigate("/login");
-          // console.log(res.data.user);
-        } else {
-          toast.warning(res.data.message, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          // console.log(res.data.message);
-        }
-      });
+    axios.post(baseURL + "/api/newuser", formData).then((res) => {
+      if (res.data.user) {
+        toast.success(res.data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        navigate("/login");
+        // console.log(res.data.user);
+      } else {
+        toast.warning(res.data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        // console.log(res.data.message);
+      }
+    });
   };
 
   return (

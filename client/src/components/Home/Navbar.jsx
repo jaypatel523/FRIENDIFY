@@ -19,6 +19,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { MediaContext } from "../../Context";
 import axios from "axios";
 import GroupIcon from "@mui/icons-material/Group";
+import { baseURL } from "../../baseURL";
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -43,23 +44,21 @@ function Navbar() {
   };
 
   const handleLogout = () => {
-    axios
-      .get("https://socialmedia-4z35.onrender.com/api/auth/signout")
-      .then((res) => {
-        console.log(res);
-        sessionStorage.clear();
-        toast.success(res.data.message, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        navigate("/login");
+    axios.get(baseURL + "/api/auth/signout").then((res) => {
+      console.log(res);
+      sessionStorage.clear();
+      toast.success(res.data.message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       });
+      navigate("/login");
+    });
   };
 
   const pages = [

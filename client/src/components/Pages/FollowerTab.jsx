@@ -5,12 +5,13 @@ import { Link } from "react-router-dom";
 import { MediaContext } from "../../Context";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { baseURL } from "../../baseURL";
 
 const FollowerTab = ({ followers, setFollowers, setFollowings }) => {
   const { user } = useContext(MediaContext);
   const handleFollow = (followId) => {
     axios
-      .put("https://socialmedia-4z35.onrender.com/api/users/follow", {
+      .put(baseURL + "/api/users/follow", {
         userId: user.userId,
         followId,
       })
@@ -29,10 +30,7 @@ const FollowerTab = ({ followers, setFollowers, setFollowings }) => {
       });
 
     axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/getfollowerandfollowing/" +
-          user.userId
-      )
+      .get(baseURL + "/api/getfollowerandfollowing/" + user.userId)
       .then((res) => {
         setFollowers(res.data.followers);
         setFollowings(res.data.following);
@@ -46,13 +44,10 @@ const FollowerTab = ({ followers, setFollowers, setFollowings }) => {
           const [isFollowing, setIsFollowing] = useState(false);
           useEffect(() => {
             axios
-              .post(
-                "https://socialmedia-4z35.onrender.com/api/user/isfollowing",
-                {
-                  userId: user.userId,
-                  followId: follower._id,
-                }
-              )
+              .post(baseURL + "/api/user/isfollowing", {
+                userId: user.userId,
+                followId: follower._id,
+              })
               .then((res) => {
                 setIsFollowing(res.data.success);
               });
@@ -73,7 +68,7 @@ const FollowerTab = ({ followers, setFollowers, setFollowings }) => {
                 <Link to={`/profile/${follower._id}`}>
                   <div className="flex items-center text-center">
                     <Avatar
-                      src={`https://socialmedia-4z35.onrender.com/${follower.profilePicURL}`}
+                      src={`${baseURL}/${follower.profilePicURL}`}
                       sx={{ marginRight: 2 }}
                     />
                     <Typography variant="subtitle1" sx={{ cursor: "pointer" }}>

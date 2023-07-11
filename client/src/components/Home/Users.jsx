@@ -19,6 +19,7 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
+import { baseURL } from "../../baseURL";
 
 const Users = () => {
   const { user, setUser } = useContext(MediaContext);
@@ -29,20 +30,16 @@ const Users = () => {
   useEffect(() => {
     if (!user.userId) return;
 
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/userstofollow/" + user.userId
-      )
-      .then((res) => {
-        console.log(res);
-        setWhoToFollow(res.data.users);
-        setIsLoading(false);
-      });
+    axios.get(baseURL + "/api/userstofollow/" + user.userId).then((res) => {
+      console.log(res);
+      setWhoToFollow(res.data.users);
+      setIsLoading(false);
+    });
   }, [user]);
 
   const handleFollow = (followId) => {
     axios
-      .put("https://socialmedia-4z35.onrender.com/api/users/follow", {
+      .put(baseURL + "/api/users/follow", {
         userId: user.userId,
         followId,
       })
@@ -60,20 +57,17 @@ const Users = () => {
         });
       });
 
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/userstofollow/" + user.userId
-      )
-      .then((res) => {
-        setWhoToFollow(res.data.users);
-      });
+    axios.get(baseURL + "/api/userstofollow/" + user.userId).then((res) => {
+      setWhoToFollow(res.data.users);
+    });
   };
 
   const handleSearchUser = (e) => {
     setSearchUser(e.target.value);
     axios
       .get(
-        "https://socialmedia-4z35.onrender.com/api/searchuser/query?username=" +
+        baseURL +
+          "/api/searchuser/query?username=" +
           e.target.value.trim() +
           "&userId=" +
           user.userId
@@ -138,7 +132,7 @@ const Users = () => {
                         <Link to={`/profile/${person._id}`}>
                           <div className="flex items-center text-center">
                             <Avatar
-                              src={`https://socialmedia-4z35.onrender.com/${person.profilePicURL}`}
+                              src={`${baseURL}/${person.profilePicURL}`}
                               sx={{ marginRight: 2 }}
                             />
                             <Typography

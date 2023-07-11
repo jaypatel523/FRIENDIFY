@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { MediaContext } from "../../Context";
 import EachLikePost from "./EachLikePost";
+import { baseURL } from "../../baseURL";
 
 const LikedPosts = () => {
   const { user } = useContext(MediaContext);
@@ -11,14 +12,10 @@ const LikedPosts = () => {
 
   useEffect(() => {
     if (!user.userId) return;
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/posts/liked/" + user.userId
-      )
-      .then((res) => {
-        setLikedPosts(res.data.likedPost);
-        setIsLoading(false);
-      });
+    axios.get(baseURL + "/api/posts/liked/" + user.userId).then((res) => {
+      setLikedPosts(res.data.likedPost);
+      setIsLoading(false);
+    });
   }, [user]);
 
   return (

@@ -34,6 +34,7 @@ import {
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { DeleteForeverRounded } from "@mui/icons-material";
+import { baseURL } from "../../baseURL";
 
 const EachLikePost = ({ post, likedPosts, setLikedPosts }) => {
   const { user, setUser } = useContext(MediaContext);
@@ -61,12 +62,7 @@ const EachLikePost = ({ post, likedPosts, setLikedPosts }) => {
   useEffect(() => {
     if (!user.userId) return;
     axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/post/isLike/" +
-          post._id +
-          "/" +
-          user.userId
-      )
+      .get(baseURL + "/api/post/isLike/" + post._id + "/" + user.userId)
       .then((res) => {
         setIsLiked(res.data.success);
       });
@@ -75,12 +71,7 @@ const EachLikePost = ({ post, likedPosts, setLikedPosts }) => {
   useEffect(() => {
     if (!user.userId) return;
     axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/post/isSave/" +
-          user.userId +
-          "/" +
-          post._id
-      )
+      .get(baseURL + "/api/post/isSave/" + user.userId + "/" + post._id)
       .then((res) => {
         setIsPostSaved(res.data.success);
       });
@@ -88,20 +79,15 @@ const EachLikePost = ({ post, likedPosts, setLikedPosts }) => {
 
   useEffect(() => {
     if (!user.userId) return;
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/getLikesAndComments/" +
-          post._id
-      )
-      .then((res) => {
-        setNumberOfLikes(res.data.likesAndComments.likes.length);
-        setNumberOfComments(res.data.likesAndComments.comments.length);
-      });
+    axios.get(baseURL + "/api/getLikesAndComments/" + post._id).then((res) => {
+      setNumberOfLikes(res.data.likesAndComments.likes.length);
+      setNumberOfComments(res.data.likesAndComments.comments.length);
+    });
   }, [isLiked]);
 
   const handleLike = () => {
     axios
-      .put("https://socialmedia-4z35.onrender.com/api/posts/like", {
+      .put(baseURL + "/api/posts/like", {
         userId: user.userId,
         postId: post._id,
       })
@@ -123,20 +109,15 @@ const EachLikePost = ({ post, likedPosts, setLikedPosts }) => {
         console.log("err", err);
       });
 
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/getLikesAndComments/" +
-          post._id
-      )
-      .then((res) => {
-        setNumberOfLikes(res.data.likesAndComments.likes.length);
-        setNumberOfComments(res.data.likesAndComments.comments.length);
-      });
+    axios.get(baseURL + "/api/getLikesAndComments/" + post._id).then((res) => {
+      setNumberOfLikes(res.data.likesAndComments.likes.length);
+      setNumberOfComments(res.data.likesAndComments.comments.length);
+    });
   };
 
   const handleUnLike = () => {
     axios
-      .put("https://socialmedia-4z35.onrender.com/api/posts/unlike", {
+      .put(baseURL + "/api/posts/unlike", {
         userId: user.userId,
         postId: post._id,
       })
@@ -157,30 +138,19 @@ const EachLikePost = ({ post, likedPosts, setLikedPosts }) => {
         console.log("err", err);
       });
 
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/posts/liked/" + user.userId
-      )
-      .then((res) => {
-        setLikedPosts(res.data.likedPost);
-      });
+    axios.get(baseURL + "/api/posts/liked/" + user.userId).then((res) => {
+      setLikedPosts(res.data.likedPost);
+    });
 
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/getLikesAndComments/" +
-          post._id
-      )
-      .then((res) => {
-        setNumberOfLikes(res.data.likesAndComments.likes.length);
-        setNumberOfComments(res.data.likesAndComments.comments.length);
-      });
+    axios.get(baseURL + "/api/getLikesAndComments/" + post._id).then((res) => {
+      setNumberOfLikes(res.data.likesAndComments.likes.length);
+      setNumberOfComments(res.data.likesAndComments.comments.length);
+    });
   };
 
   useEffect(() => {
     axios
-      .get(
-        `https://socialmedia-4z35.onrender.com/api/posts/getcomments/${post._id}`
-      )
+      .get(baseURL + `/api/posts/getcomments/${post._id}`)
       .then((res) => {
         setComments(res.data[0].comments);
       })
@@ -207,7 +177,7 @@ const EachLikePost = ({ post, likedPosts, setLikedPosts }) => {
       postId: post._id,
     };
     axios
-      .put("https://socialmedia-4z35.onrender.com/api/posts/comment", data)
+      .put(baseURL + "/api/posts/comment", data)
       .then((res) => {
         setComments(res.data.result.comments);
         toast.success(res.data.message, {
@@ -226,15 +196,10 @@ const EachLikePost = ({ post, likedPosts, setLikedPosts }) => {
       });
     setCommentText("");
 
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/getLikesAndComments/" +
-          post._id
-      )
-      .then((res) => {
-        setNumberOfLikes(res.data.likesAndComments.likes.length);
-        setNumberOfComments(res.data.likesAndComments.comments.length);
-      });
+    axios.get(baseURL + "/api/getLikesAndComments/" + post._id).then((res) => {
+      setNumberOfLikes(res.data.likesAndComments.likes.length);
+      setNumberOfComments(res.data.likesAndComments.comments.length);
+    });
   };
 
   const handleUnComment = (commentId) => {
@@ -243,7 +208,7 @@ const EachLikePost = ({ post, likedPosts, setLikedPosts }) => {
       postId: post._id,
     };
     axios
-      .put("https://socialmedia-4z35.onrender.com/api/posts/uncomment", data)
+      .put(baseURL + "/api/posts/uncomment", data)
       .then((res) => {
         toast.success(res.data.message, {
           position: "top-right",
@@ -261,25 +226,15 @@ const EachLikePost = ({ post, likedPosts, setLikedPosts }) => {
         console.log(err);
       });
 
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/getLikesAndComments/" +
-          post._id
-      )
-      .then((res) => {
-        setNumberOfLikes(res.data.likesAndComments.likes.length);
-        setNumberOfComments(res.data.likesAndComments.comments.length);
-      });
+    axios.get(baseURL + "/api/getLikesAndComments/" + post._id).then((res) => {
+      setNumberOfLikes(res.data.likesAndComments.likes.length);
+      setNumberOfComments(res.data.likesAndComments.comments.length);
+    });
   };
 
   const handleSavePost = () => {
     axios
-      .put(
-        "https://socialmedia-4z35.onrender.com/api/post/save/" +
-          user.userId +
-          "/" +
-          post._id
-      )
+      .put(baseURL + "/api/post/save/" + user.userId + "/" + post._id)
       .then((res) => {
         toast.success(res.data.message, {
           position: "top-right",
@@ -297,12 +252,7 @@ const EachLikePost = ({ post, likedPosts, setLikedPosts }) => {
 
   const handleUnSavePost = () => {
     axios
-      .put(
-        "https://socialmedia-4z35.onrender.com/api/post/unsave/" +
-          user.userId +
-          "/" +
-          post._id
-      )
+      .put(baseURL + "/api/post/unsave/" + user.userId + "/" + post._id)
       .then((res) => {
         toast.success(res.data.message, {
           position: "top-right",
@@ -339,7 +289,7 @@ const EachLikePost = ({ post, likedPosts, setLikedPosts }) => {
           }}
         >
           <Avatar
-            src={`https://socialmedia-4z35.onrender.com/${post.postedBy.profilePicURL}`}
+            src={`${baseURL}/${post.postedBy.profilePicURL}`}
             sx={{ marginRight: 2 }}
           />
           <Typography variant="overline" sx={{ fontWeight: "bold" }}>
@@ -354,7 +304,7 @@ const EachLikePost = ({ post, likedPosts, setLikedPosts }) => {
           sx={{ border: "1px solid black" }}
         >
           <Container maxWidth="xl">
-            <img src={`https://socialmedia-4z35.onrender.com/${imageUrl}`} />
+            <img src={`${baseURL}/${imageUrl}`} />
           </Container>
         </Dialog>
 
@@ -365,7 +315,7 @@ const EachLikePost = ({ post, likedPosts, setLikedPosts }) => {
             alt="green iguana"
           /> */}
           <img
-            src={`https://socialmedia-4z35.onrender.com/${imageUrl}`}
+            src={`${baseURL}/${imageUrl}`}
             className="w-full h-72 object-contain"
           />
         </CardActionArea>

@@ -28,6 +28,7 @@ import Paper from "@mui/material/Paper";
 import { CameraAltRounded } from "@mui/icons-material";
 import CloudDoneIcon from "@mui/icons-material/CloudDone";
 import { useNavigate } from "react-router-dom";
+import { baseURL } from "../../baseURL";
 
 const CreatePost = () => {
   const { user, setUser } = useContext(MediaContext);
@@ -42,9 +43,7 @@ const CreatePost = () => {
 
   useEffect(() => {
     axios
-      .get(
-        `https://socialmedia-4z35.onrender.com/api/getallposts/query?limit=${loadMore}`
-      )
+      .get(baseURL + `/api/getallposts/query?limit=${loadMore}`)
       .then((res) => {
         console.log(res);
         setAllPost(res.data);
@@ -64,40 +63,35 @@ const CreatePost = () => {
     formData.append("caption", caption);
     formData.append("image", image);
 
-    axios
-      .post(
-        `https://socialmedia-4z35.onrender.com/api/new/post/${userId}`,
-        formData
-      )
-      .then((res) => {
-        if (res.data.success) {
-          setIsPost(true);
-          toast.success(res.data.message, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          setIsPosting(false);
-          navigate("/");
-        } else {
-          toast.success(res.data.message, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-          setIsPosting(false);
-        }
-      });
+    axios.post(baseURL + `/api/new/post/${userId}`, formData).then((res) => {
+      if (res.data.success) {
+        setIsPost(true);
+        toast.success(res.data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setIsPosting(false);
+        navigate("/");
+      } else {
+        toast.success(res.data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setIsPosting(false);
+      }
+    });
 
     setIsPost(false);
     setCaption("");

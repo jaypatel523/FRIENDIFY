@@ -20,6 +20,7 @@ import FollowerTab from "./FollowerTab";
 import FollowingTab from "./FollowingTab";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { baseURL } from "../../baseURL";
 
 const Profile = () => {
   const { user } = useContext(MediaContext);
@@ -41,20 +42,13 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/getposts/" + params.userId
-      )
-      .then((res) => {
-        setPosts(res.data);
-        setIsProfileLoading(false);
-      });
+    axios.get(baseURL + "/api/getposts/" + params.userId).then((res) => {
+      setPosts(res.data);
+      setIsProfileLoading(false);
+    });
 
     axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/getfollowerandfollowing/" +
-          params.userId
-      )
+      .get(baseURL + "/api/getfollowerandfollowing/" + params.userId)
       .then((res) => {
         // setFollowers(res.data.followings);
         setFollowers(res.data.followers);
@@ -64,23 +58,16 @@ const Profile = () => {
   }, [params]);
 
   useEffect(() => {
-    axios
-      .get(
-        "https://socialmedia-4z35.onrender.com/api/getuserdetails/" +
-          params.userId
-      )
-      .then((res) => {
-        setCurrentUser(res.data.user);
-        setProfilePic(
-          "https://socialmedia-4z35.onrender.com/" + res.data.user.profilePicURL
-        );
-        setIsProfileLoading(false);
-      });
+    axios.get(baseURL + "/api/getuserdetails/" + params.userId).then((res) => {
+      setCurrentUser(res.data.user);
+      setProfilePic(baseURL + "/" + res.data.user.profilePicURL);
+      setIsProfileLoading(false);
+    });
   }, [params]);
 
   useEffect(() => {
     axios
-      .post("https://socialmedia-4z35.onrender.com/api/user/isfollowing", {
+      .post(baseURL + "/api/user/isfollowing", {
         userId: user.userId,
         followId: params.userId,
       })
@@ -91,7 +78,7 @@ const Profile = () => {
 
   const handleFollow = () => {
     axios
-      .put("https://socialmedia-4z35.onrender.com/api/users/follow", {
+      .put(baseURL + "/api/users/follow", {
         userId: user.userId,
         followId: params.userId,
       })
